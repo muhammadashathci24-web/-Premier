@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize features
   initSidebarAndNav();
   renderDashboard(data);
+  renderProfile(data);
 });
 
 /**
@@ -201,6 +202,91 @@ function renderDashboard(data) {
 }
 
 /**
+ * Renders the Student Profile view
+ */
+function renderProfile(data) {
+  const { currentStudent } = data;
+
+  // Profile Header Elements
+  const elDegree = document.getElementById('profile-degree-text');
+  if (elDegree) elDegree.textContent = currentStudent.degree;
+
+  const elYear = document.getElementById('profile-year-text');
+  if (elYear) elYear.textContent = `${currentStudent.year} (${currentStudent.semester})`;
+
+  const elId = document.getElementById('profile-id-text');
+  if (elId) elId.textContent = `Student ID: ${currentStudent.id}`;
+
+  const elStanding = document.getElementById('profile-standing-badge');
+  if (elStanding) elStanding.textContent = currentStudent.status;
+
+  // Personal Information Details
+  const infoListEl = document.getElementById('profile-info-list');
+  if (infoListEl) {
+    const infoItems = [
+      { label: 'Full Legal Name', value: currentStudent.fullName },
+      { label: 'Student ID Number', value: currentStudent.id },
+      { label: 'University Email', value: currentStudent.email },
+      { label: 'Phone Number', value: currentStudent.phone },
+      { label: 'Campus Residence', value: currentStudent.address },
+      { label: 'Degree & Department', value: currentStudent.degree },
+      { label: 'Current Term', value: `${currentStudent.year} • ${currentStudent.semester}` },
+      { label: 'Assigned Advisor', value: currentStudent.advisor }
+    ];
+
+    infoListEl.innerHTML = infoItems.map(item => `
+      <div class="info-row">
+        <span class="info-label">${escapeHtml(item.label)}</span>
+        <span class="info-val">${escapeHtml(item.value)}</span>
+      </div>
+    `).join('');
+  }
+
+  // Academic Standing & Progress
+  const elCreditsRatio = document.getElementById('profile-credits-ratio');
+  const percentCredits = Math.round((currentStudent.creditsCompleted / currentStudent.totalCredits) * 100);
+  if (elCreditsRatio) {
+    elCreditsRatio.textContent = `${currentStudent.creditsCompleted} / ${currentStudent.totalCredits} Credits (${percentCredits}%)`;
+  }
+
+  const elCreditsBar = document.getElementById('profile-credits-bar');
+  if (elCreditsBar) {
+    elCreditsBar.style.width = `${percentCredits}%`;
+  }
+
+  const elGpaVal = document.getElementById('profile-gpa-val');
+  if (elGpaVal) {
+    elGpaVal.textContent = currentStudent.gpa;
+  }
+
+  const elAdvisor = document.getElementById('profile-advisor-name');
+  if (elAdvisor) {
+    elAdvisor.textContent = currentStudent.advisor;
+  }
+
+  // Render Enrolled Courses Table
+  const coursesTbody = document.getElementById('profile-courses-tbody');
+  if (coursesTbody && currentStudent.enrolledCourses) {
+    coursesTbody.innerHTML = currentStudent.enrolledCourses.map(course => {
+      let gradeClass = 'grade-a';
+      if (course.grade.startsWith('B')) gradeClass = 'grade-b';
+      else if (course.grade.startsWith('C')) gradeClass = 'grade-c';
+
+      return `
+        <tr>
+          <td><strong style="color: var(--primary);">${escapeHtml(course.code)}</strong></td>
+          <td>${escapeHtml(course.name)}</td>
+          <td>${escapeHtml(course.instructor)}</td>
+          <td>${course.credits} Credits</td>
+          <td><span class="grade-badge ${gradeClass}">${escapeHtml(course.grade)}</span></td>
+          <td><span class="status-pill"><span class="indicator"></span> Enrolled</span></td>
+        </tr>
+      `;
+    }).join('');
+  }
+}
+
+/**
  * Quick toggle for task completion
  */
 window.toggleTaskStatus = function(taskId) {
@@ -226,3 +312,4 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+

@@ -16,8 +16,13 @@ A clean, responsive student support web application built with vanilla HTML, mod
 - **Campus Notice Board**: Recent academic and campus announcements.
 - **Responsive Navigation**: Adaptive desktop sidebar and slide-out mobile drawer.
 
-### 2. 📅 Planned Features (Built One-by-One)
-- [ ] **Student Profile**: Academic details, advisor info, enrolled courses, and credit completion progress.
+### 2. 👤 Student Profile Page (Completed)
+- **Personal & Contact Card**: Legal name, student ID, institutional email, phone, residence, and academic advisor.
+- **Degree Progress & Academic Standing**: Completed credits progress bar (`78 / 120 Credits - 65%`), Cumulative GPA (`3.82`), and Major GPA (`3.90`).
+- **Enrolled Courses Table**: Fall 2026 courses with codes, credits, instructors, letter grade badges, and enrollment status.
+- **Document Actions**: Quick simulated unofficial transcript download and contact update buttons.
+
+### 3. 📅 Next Planned Features (Built One-by-One)
 - [ ] **Opportunities Hub**: Filterable internships, scholarships, and grants with bookmark/apply dialogs.
 - [ ] **Tasks & Study Plan**: Full task manager with category filters (All / In-Progress / Completed), priority tagging, and task creation.
 - [ ] **Attendance Monitor**: Detailed subject attendance tables, attendance percentage calculation, and leave tracker.
